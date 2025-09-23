@@ -6,11 +6,11 @@ import { getRecipeFromChefClaude } from "../src/ai";
 export default function Main() {
 
     const [ ingredients, setIngredients ] = React.useState([])
-    const [ recipeShown, setRecipeShown ] = React.useState(false)
+    const [ recipe, setRecipe ] = React.useState("")
 
     async function getRecipe() {
-        const recipeMarkdown = await getRecipeFromChefClaude(ingredients)
-        console.log(recipeMarkdown)
+        const recipe = await getRecipeFromChefClaude(ingredients)
+        setRecipe(recipeMarkdown)
     }
 
     function addIngredient(formData) {        
@@ -39,7 +39,7 @@ export default function Main() {
         }
 
         {/*  placeholder recipe */}
-        {recipeShown && <ClaudeRecipe />}
+        {recipe && <ClaudeRecipe recipe={recipe} />}
 
         </main>
     )
