@@ -7,10 +7,11 @@ You are an assistant that receives a list of ingredients that a user has and sug
 `
 
 const anthropic = new Anthropic({    
-    apiKey: process.env.VITE_ANTHROPIC_API_KEY,
+    apiKey: process.env.VITE_ANTHROPIC_API_KEY,    
     dangerouslyAllowBrowser: true,
 })
 
+// async returns a promise
 export async function getRecipeFromChefClaude(ingredientsArr) {
     const ingredientsString = ingredientsArr.join(", ")
 
