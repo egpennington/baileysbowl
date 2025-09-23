@@ -1,5 +1,5 @@
 import React from "react";
-import ClaudeRecipe from "./ClaudeRecipe";
+import ClaudeRecipe from ".components/ClaudeRecipe";
 import IngredientsList from "./IngredientsList";
 
 export default function Main() {
