@@ -4,12 +4,11 @@ import IngredientsList from "./IngredientsList";
 import { getRecipeFromChefClaude } from "../src/ai";
 
 export default function Main() {
-
     const [ ingredients, setIngredients ] = React.useState([])
     const [ recipe, setRecipe ] = React.useState("")
 
     async function getRecipe() {
-        const recipe = await getRecipeFromChefClaude(ingredients)
+        const recipeMarkdown = await getRecipeFromChefClaude(ingredients)
         setRecipe(recipeMarkdown)
     }
 
