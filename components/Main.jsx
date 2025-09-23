@@ -27,7 +27,7 @@ export default function Main() {
                     aria-label="Add ingredient"
                     name="ingredient"
                 />
-                <button>Add ingredient</button>
+                <button>Add ingredient</button>                
             </form>  
 
         {ingredients.length > 0 &&     
