@@ -1,17 +1,18 @@
 {
-    "id": "/",
-    "name":"Bailey's Bowl",
-    "short_name":"Bailey's Bowl",
-    "description": "Turn what you have into what you crave with AI-powered recipe suggestions.",
-    "start_url": "./index.html",
-    "display": "standalone",
-    "scope": "/",
-    "icons":
-        [{
-        "src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},
-        {"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}
-        ],
-    "categories": ["food", "lifestyle", "productivity"],
-    "theme_color":" #e86e51",
-    "background_color":" #fff",
+  "id": "/",
+  "name": "Bailey's Bowl",
+  "short_name": "Bailey's Bowl",
+  "description": "Turn what you have into what you crave with AI-powered recipe suggestions.",
+  "start_url": "./index.html",
+  "scope": "/",
+  "display": "standalone",
+  "icons": [
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "categories": ["food", "lifestyle", "productivity"],
+  "theme_color": "#e86e51",
+  "background_color": "#ffffff"
 }
+
+
