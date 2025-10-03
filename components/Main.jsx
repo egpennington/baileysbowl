@@ -24,9 +24,6 @@ export default function Main() {
         setIngredients(prev => [...prev, newIngredient]);
     }
 
-    DOMNode.scrollIntoView()
-    
-
     return (
         <main>
             <form className="add-ingredient-form" 
