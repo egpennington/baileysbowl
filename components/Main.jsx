@@ -6,6 +6,13 @@ import { getRecipeFromChefClaude } from "../src/ai";
 export default function Main() {
     const [ ingredients, setIngredients ] = React.useState([])
     const [ recipe, setRecipe ] = React.useState("")
+    const recipeSection = React.useRef(null)
+
+    React.useEffect(() => {
+        if(recipe !== "" && recipeSection.current !== null) {
+            recipeSection.current.scrollIntoView()
+        }
+    }, [recipe])
 
     async function getRecipe() {
         const recipeMarkdown = await getRecipeFromChefClaude(ingredients)
@@ -16,6 +23,8 @@ export default function Main() {
         const newIngredient = formData.get("ingredient")
         setIngredients(prev => [...prev, newIngredient]);
     }
+
+    DOMNode.scrollIntoView()
 
     return (
         <main>
@@ -32,6 +41,7 @@ export default function Main() {
 
         {ingredients.length > 0 &&     
             <IngredientsList 
+                ref={recipeSection}
                 ingredients={ingredients}
                 getRecipe={getRecipe}
             />
