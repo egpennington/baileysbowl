@@ -25,6 +25,7 @@ export default function Main() {
     }
 
     DOMNode.scrollIntoView()
+    
 
     return (
         <main>
