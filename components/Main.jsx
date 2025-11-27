@@ -5,23 +5,23 @@ import IngredientsList from "./IngredientsList";
 import { getRecipeFromChefClaude } from "../src/ai";
 
 export default function Main() {
-    // ✅ Load ingredients from localStorage
+    // Load ingredients from localStorage
     const [ingredients, setIngredients] = React.useState(() => {
         const saved = localStorage.getItem("baileysbowl-ingredients");
         return saved ? JSON.parse(saved) : [];
     });
 
-    // ✅ Load recipe from localStorage
+    // Load recipe from localStorage
     const [recipe, setRecipe] = React.useState(() => {
         return localStorage.getItem("baileysbowl-recipe") || "";
     });
 
-    // ✅ Load cuisine from localStorage
+    // Load cuisine from localStorage
     const [cuisine, setCuisine] = React.useState(() => {
         return localStorage.getItem("baileysbowl-cuisine") || "Any";
     });
 
-    // ✅ Load saved recipes from localStorage
+    // Load saved recipes from localStorage
     const [savedRecipes, setSavedRecipes] = React.useState(() => {
         const saved = localStorage.getItem("baileysbowl-saved-recipes");
         return saved ? JSON.parse(saved) : [];
@@ -29,7 +29,7 @@ export default function Main() {
 
     const recipeSection = React.useRef(null);
 
-    // ✅ Save ingredients to localStorage
+    // Save ingredients to localStorage
     React.useEffect(() => {
         localStorage.setItem(
             "baileysbowl-ingredients",
@@ -37,12 +37,12 @@ export default function Main() {
         );
     }, [ingredients]);
 
-    // ✅ Save cuisine to localStorage
+    // Save cuisine to localStorage
     React.useEffect(() => {
         localStorage.setItem("baileysbowl-cuisine", cuisine);
     }, [cuisine]);
 
-    // ✅ Save recipe to localStorage
+    // Save recipe to localStorage
     React.useEffect(() => {
         if (!recipe) {
             localStorage.removeItem("baileysbowl-recipe");
@@ -51,7 +51,7 @@ export default function Main() {
         }
     }, [recipe]);
 
-    // ✅ Save savedRecipes list to localStorage
+    // Save savedRecipes list to localStorage
     React.useEffect(() => {
         localStorage.setItem(
             "baileysbowl-saved-recipes",
@@ -59,7 +59,7 @@ export default function Main() {
         );
     }, [savedRecipes]);
 
-    // ✅ Auto-scroll to recipe
+    // Auto-scroll to recipe
     React.useEffect(() => {
         if (recipe !== "" && recipeSection.current !== null) {
             recipeSection.current.scrollIntoView();
@@ -80,14 +80,14 @@ export default function Main() {
         setIngredients((prev) => [...prev, newIngredient]);
     }
 
-    // ✅ Start new recipe = full reset of current session
+    // Start new recipe = full reset of current session
     function startNewRecipe() {
         setIngredients([]);
         setRecipe("");
         setCuisine("Any");
     }
 
-    // ✅ Save current recipe into saved list
+    // Save current recipe into saved list
     function saveCurrentRecipe() {
         if (!recipe) return;
 
@@ -100,6 +100,11 @@ export default function Main() {
         };
 
         setSavedRecipes((prev) => [entry, ...prev]);
+    }
+
+    // Delete a saved recipe by id
+    function deleteSavedRecipe(id) {
+        setSavedRecipes(prev => prev.filter(item => item.id !== id));
     }
 
     return (
@@ -151,10 +156,12 @@ export default function Main() {
                 <ClaudeRecipe
                     recipe={recipe}
                     onSave={saveCurrentRecipe}
+                    onClose={() => setRecipe("")}
                 />
             )}
 
-            {/* ✅ Saved recipes list */}
+
+            {/* Saved recipes list */}
             {savedRecipes.length > 0 && (
                 <section className="saved-recipes">
                     <h2>Saved recipes</h2>
@@ -175,18 +182,29 @@ export default function Main() {
                                         ).toLocaleString()}
                                     </div>
                                 </div>
-                                <button
-                                    type="button"
-                                    className="secondary-button"
-                                    onClick={() => setRecipe(item.recipe)}
-                                >
-                                    View
-                                </button>
+
+                                <div className="saved-recipes-actions">
+                                    <button
+                                        type="button"
+                                        className="secondary-button"
+                                        onClick={() => setRecipe(item.recipe)}
+                                    >
+                                        View
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="secondary-button danger-button"
+                                        onClick={() => deleteSavedRecipe(item.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>
                 </section>
             )}
+
         </main>
     );
 }

@@ -129,7 +129,7 @@ section h2 {
 
 .get-recipe-container p {
   color: #6b7280;
-  font-size: 0.875;
+  font-size: 0.875rem;
 }
 
 .get-recipe-container button {
@@ -140,7 +140,7 @@ section h2 {
   color: #fafaf8;
   padding: 9px 17px;
   font-family: Inter, sans-serif;
-  font-size: 0.875;
+  font-size: 0.875rem;
   cursor: pointer;
 }
 
@@ -149,6 +149,7 @@ section h2 {
   line-height: 28px;
   font-size: 1.125rem;
   font-weight: 400;
+  margin-top: 1.5rem;
 }
 
 .suggested-recipe-container ul li,
@@ -287,3 +288,22 @@ fieldset {
   color: #777;
 }
 
+.recipe-header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.saved-recipes-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Slightly "warning" styled delete button */
+.danger-button {
+  border-color: #e57373;
+  color: #b71c1c;
+}
+
+.danger-button:hover {
+  background-color: #fdecea;
+}
