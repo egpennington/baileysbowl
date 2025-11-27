@@ -5,7 +5,7 @@ import IngredientsList from "./IngredientsList";
 import { getRecipeFromChefClaude } from "../src/ai";
 
 // Single source of truth for UI version label
-import packageJson from "../../package.json"; // path may vary
+import packageJson from "../package.json"
 const APP_VERSION = packageJson.version;
 
 export default function Main() {
