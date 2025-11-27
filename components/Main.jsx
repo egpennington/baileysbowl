@@ -5,11 +5,35 @@ import IngredientsList from "./IngredientsList";
 import { getRecipeFromChefClaude } from "../src/ai";
 
 export default function Main() {
-    const [ingredients, setIngredients] = React.useState([]);
+    // ✅ Load ingredients from localStorage
+    const [ingredients, setIngredients] = React.useState(() => {
+        const saved = localStorage.getItem("baileysbowl-ingredients");
+        return saved ? JSON.parse(saved) : [];
+    });
+
     const [recipe, setRecipe] = React.useState("");
-    const [cuisine, setCuisine] = React.useState("Any");   // NEW
+
+    // ✅ Load cuisine from localStorage
+    const [cuisine, setCuisine] = React.useState(() => {
+        return localStorage.getItem("baileysbowl-cuisine") || "Any";
+    });
+
     const recipeSection = React.useRef(null);
 
+    // ✅ Save ingredients to localStorage
+    React.useEffect(() => {
+        localStorage.setItem(
+            "baileysbowl-ingredients",
+            JSON.stringify(ingredients)
+        );
+    }, [ingredients]);
+
+    // ✅ Save cuisine to localStorage
+    React.useEffect(() => {
+        localStorage.setItem("baileysbowl-cuisine", cuisine);
+    }, [cuisine]);
+
+    // ✅ Auto-scroll to recipe
     React.useEffect(() => {
         if (recipe !== "" && recipeSection.current !== null) {
             recipeSection.current.scrollIntoView();
@@ -27,6 +51,13 @@ export default function Main() {
         setIngredients((prev) => [...prev, newIngredient]);
     }
 
+    // ✅ Start new recipe = full reset
+    function startNewRecipe() {
+        setIngredients([]);
+        setRecipe("");
+        setCuisine("Any");
+    }
+
     return (
         <main>
             <form className="add-ingredient-form" action={addIngredient}>
@@ -39,7 +70,7 @@ export default function Main() {
                 <button>Add ingredient</button>
             </form>
 
-            {/* NEW: cuisine selector */}
+            {/* ✅ Cuisine selector */}
             <section className="cuisine-selector">
                 <h2>What are you craving?</h2>
                 <div className="cuisine-selector-row">
@@ -58,6 +89,7 @@ export default function Main() {
                         <option value="Chinese">Chinese</option>
                         <option value="Mexican">Mexican</option>
                         <option value="Italian">Italian</option>
+                        <option value="Vegetarian">Vegetarian</option>
                     </select>
                 </div>
             </section>
@@ -67,6 +99,7 @@ export default function Main() {
                     ref={recipeSection}
                     ingredients={ingredients}
                     getRecipe={getRecipe}
+                    onStartNew={startNewRecipe}   // ✅ NEW
                 />
             )}
 

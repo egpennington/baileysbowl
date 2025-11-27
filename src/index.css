@@ -221,3 +221,32 @@ fieldset {
   border-color: #f47b42;          /* pick a highlight color similar to your button */
   box-shadow: 0 0 0 2px rgba(244, 123, 66, 0.2);
 }
+
+/* Button group for Get Recipe + Start New */
+.recipe-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* Secondary button style (Start new recipe) */
+.secondary-button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  background-color: #f5f5f5;
+}
+
+/* Small helper text under "Ready for a recipe?" */
+.pantry-note {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: #777;
+}
+
