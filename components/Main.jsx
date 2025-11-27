@@ -21,6 +21,12 @@ export default function Main() {
         return localStorage.getItem("baileysbowl-cuisine") || "Any";
     });
 
+    // ✅ Load saved recipes from localStorage
+    const [savedRecipes, setSavedRecipes] = React.useState(() => {
+        const saved = localStorage.getItem("baileysbowl-saved-recipes");
+        return saved ? JSON.parse(saved) : [];
+    });
+
     const recipeSection = React.useRef(null);
 
     // ✅ Save ingredients to localStorage
@@ -39,12 +45,19 @@ export default function Main() {
     // ✅ Save recipe to localStorage
     React.useEffect(() => {
         if (!recipe) {
-            // If cleared (e.g. Start new recipe), remove from storage
             localStorage.removeItem("baileysbowl-recipe");
         } else {
             localStorage.setItem("baileysbowl-recipe", recipe);
         }
     }, [recipe]);
+
+    // ✅ Save savedRecipes list to localStorage
+    React.useEffect(() => {
+        localStorage.setItem(
+            "baileysbowl-saved-recipes",
+            JSON.stringify(savedRecipes)
+        );
+    }, [savedRecipes]);
 
     // ✅ Auto-scroll to recipe
     React.useEffect(() => {
@@ -54,7 +67,10 @@ export default function Main() {
     }, [recipe]);
 
     async function getRecipe() {
-        const recipeMarkdown = await getRecipeFromChefClaude(ingredients, cuisine);
+        const recipeMarkdown = await getRecipeFromChefClaude(
+            ingredients,
+            cuisine
+        );
         setRecipe(recipeMarkdown);
     }
 
@@ -64,11 +80,26 @@ export default function Main() {
         setIngredients((prev) => [...prev, newIngredient]);
     }
 
-    // ✅ Start new recipe = full reset
+    // ✅ Start new recipe = full reset of current session
     function startNewRecipe() {
         setIngredients([]);
         setRecipe("");
         setCuisine("Any");
+    }
+
+    // ✅ Save current recipe into saved list
+    function saveCurrentRecipe() {
+        if (!recipe) return;
+
+        const entry = {
+            id: Date.now(),
+            recipe,
+            cuisine,
+            ingredients,
+            savedAt: new Date().toISOString(),
+        };
+
+        setSavedRecipes((prev) => [entry, ...prev]);
     }
 
     return (
@@ -116,7 +147,46 @@ export default function Main() {
                 />
             )}
 
-            {recipe && <ClaudeRecipe recipe={recipe} />}
+            {recipe && (
+                <ClaudeRecipe
+                    recipe={recipe}
+                    onSave={saveCurrentRecipe}
+                />
+            )}
+
+            {/* ✅ Saved recipes list */}
+            {savedRecipes.length > 0 && (
+                <section className="saved-recipes">
+                    <h2>Saved recipes</h2>
+                    <ul className="saved-recipes-list">
+                        {savedRecipes.map((item) => (
+                            <li
+                                key={item.id}
+                                className="saved-recipes-item"
+                            >
+                                <div>
+                                    <strong>
+                                        {item.cuisine || "Any"} recipe
+                                    </strong>
+                                    <div className="saved-recipes-meta">
+                                        Saved{" "}
+                                        {new Date(
+                                            item.savedAt
+                                        ).toLocaleString()}
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="secondary-button"
+                                    onClick={() => setRecipe(item.recipe)}
+                                >
+                                    View
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )}
         </main>
     );
 }

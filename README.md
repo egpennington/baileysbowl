@@ -19,9 +19,13 @@
 - 💾 Automatic saving with `localStorage`:
   - Ingredients persist across refresh
   - Selected cuisine is remembered
+  - Last generated recipe is restored
+- **Save recipes for later**
+  - Save individual recipes to your local device
+  - View and reload saved recipes anytime
 - 🔄 **Start New Recipe** button for a clean slate  
-- 📜 Recipes render beautifully in markdown  
-- 📱 Responsive, clean UI
+- Recipes render beautifully in markdown  
+- Responsive, clean UI
 
 ---
 
@@ -31,14 +35,15 @@
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
 1. Add ingredients you currently have.
 2. Select an optional cuisine style.
 3. Click **Get a recipe**.
 4. Bailey’s Bowl sends your ingredients + cuisine preference to the AI.
 5. You receive a formatted recipe recommendation.
-6. Ingredients & cuisine are auto-saved until you click **Start new recipe**.
+6. Click **Save this recipe** to store it for later.
+7. Ingredients, cuisine, and last recipe are auto-saved until you click **Start new recipe**.
 
 ---
 
@@ -54,6 +59,3 @@
 ---
 
 ## License This project is licensed under the **MIT License**. As long as you include the original copyright notice.
-
-
-
