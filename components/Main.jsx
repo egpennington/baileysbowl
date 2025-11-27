@@ -4,6 +4,10 @@ import ClaudeRecipe from "./ClaudeRecipe";
 import IngredientsList from "./IngredientsList";
 import { getRecipeFromChefClaude } from "../src/ai";
 
+// Single source of truth for UI version label
+import packageJson from "../../package.json"; // path may vary
+const APP_VERSION = packageJson.version;
+
 export default function Main() {
     // Load ingredients from localStorage
     const [ingredients, setIngredients] = React.useState(() => {
@@ -108,103 +112,109 @@ export default function Main() {
     }
 
     return (
-        <main>
-            <form className="add-ingredient-form" action={addIngredient}>
-                <input
-                    type="text"
-                    placeholder="e.g. oregeno"
-                    aria-label="Add ingredient"
-                    name="ingredient"
-                />
-                <button>Add ingredient</button>
-            </form>
+        <>
+            <main>
+                <form className="add-ingredient-form" action={addIngredient}>
+                    <input
+                        type="text"
+                        placeholder="e.g. oregeno"
+                        aria-label="Add ingredient"
+                        name="ingredient"
+                    />
+                    <button>Add ingredient</button>
+                </form>
 
-            {/* Cuisine selector */}
-            <section className="cuisine-selector">
-                <h2>What are you craving?</h2>
-                <div className="cuisine-selector-row">
-                    <label htmlFor="cuisine-select">
-                        Choose a cuisine style (optional):
-                    </label>
-                    <select
-                        id="cuisine-select"
-                        className="cuisine-select"
-                        value={cuisine}
-                        onChange={(e) => setCuisine(e.target.value)}
-                    >
-                        <option value="Any">Any cuisine</option>
-                        <option value="Korean">Korean</option>
-                        <option value="Japanese">Japanese</option>
-                        <option value="Chinese">Chinese</option>
-                        <option value="Mexican">Mexican</option>
-                        <option value="Italian">Italian</option>
-                        <option value="Vegetarian">Vegetarian</option>
-                    </select>
-                </div>
-            </section>
-
-            {ingredients.length > 0 && (
-                <IngredientsList
-                    ref={recipeSection}
-                    ingredients={ingredients}
-                    getRecipe={getRecipe}
-                    onStartNew={startNewRecipe}
-                />
-            )}
-
-            {recipe && (
-                <ClaudeRecipe
-                    recipe={recipe}
-                    onSave={saveCurrentRecipe}
-                    onClose={() => setRecipe("")}
-                />
-            )}
-
-
-            {/* Saved recipes list */}
-            {savedRecipes.length > 0 && (
-                <section className="saved-recipes">
-                    <h2>Saved recipes</h2>
-                    <ul className="saved-recipes-list">
-                        {savedRecipes.map((item) => (
-                            <li
-                                key={item.id}
-                                className="saved-recipes-item"
-                            >
-                                <div>
-                                    <strong>
-                                        {item.cuisine || "Any"} recipe
-                                    </strong>
-                                    <div className="saved-recipes-meta">
-                                        Saved{" "}
-                                        {new Date(
-                                            item.savedAt
-                                        ).toLocaleString()}
-                                    </div>
-                                </div>
-
-                                <div className="saved-recipes-actions">
-                                    <button
-                                        type="button"
-                                        className="secondary-button"
-                                        onClick={() => setRecipe(item.recipe)}
-                                    >
-                                        View
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="secondary-button danger-button"
-                                        onClick={() => deleteSavedRecipe(item.id)}
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                {/* Cuisine selector */}
+                <section className="cuisine-selector">
+                    <h2>What are you craving?</h2>
+                    <div className="cuisine-selector-row">
+                        <label htmlFor="cuisine-select">
+                            Choose a cuisine style (optional):
+                        </label>
+                        <select
+                            id="cuisine-select"
+                            className="cuisine-select"
+                            value={cuisine}
+                            onChange={(e) => setCuisine(e.target.value)}
+                        >
+                            <option value="Any">Any cuisine</option>
+                            <option value="Korean">Korean</option>
+                            <option value="Japanese">Japanese</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Mexican">Mexican</option>
+                            <option value="Italian">Italian</option>
+                            <option value="Vegetarian">Vegetarian</option>
+                        </select>
+                    </div>
                 </section>
-            )}
 
-        </main>
+                {ingredients.length > 0 && (
+                    <IngredientsList
+                        ref={recipeSection}
+                        ingredients={ingredients}
+                        getRecipe={getRecipe}
+                        onStartNew={startNewRecipe}
+                    />
+                )}
+
+                {recipe && (
+                    <ClaudeRecipe
+                        recipe={recipe}
+                        onSave={saveCurrentRecipe}
+                        onClose={() => setRecipe("")}
+                    />
+                )}
+
+                {/* Saved recipes list */}
+                {savedRecipes.length > 0 && (
+                    <section className="saved-recipes">
+                        <h2>Saved recipes</h2>
+                        <ul className="saved-recipes-list">
+                            {savedRecipes.map((item) => (
+                                <li
+                                    key={item.id}
+                                    className="saved-recipes-item"
+                                >
+                                    <div>
+                                        <strong>
+                                            {item.cuisine || "Any"} recipe
+                                        </strong>
+                                        <div className="saved-recipes-meta">
+                                            Saved{" "}
+                                            {new Date(
+                                                item.savedAt
+                                            ).toLocaleString()}
+                                        </div>
+                                    </div>
+
+                                    <div className="saved-recipes-actions">
+                                        <button
+                                            type="button"
+                                            className="secondary-button"
+                                            onClick={() => setRecipe(item.recipe)}
+                                        >
+                                            View
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="secondary-button danger-button"
+                                            onClick={() => deleteSavedRecipe(item.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
+            </main>
+
+            <footer className="app-footer">
+                <p>
+                    Bailey&apos;s Bowl · <span className="version-label">v{APP_VERSION}</span>
+                </p>
+            </footer>
+        </>
     );
 }
