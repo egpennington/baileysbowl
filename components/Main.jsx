@@ -11,7 +11,10 @@ export default function Main() {
         return saved ? JSON.parse(saved) : [];
     });
 
-    const [recipe, setRecipe] = React.useState("");
+    // ✅ Load recipe from localStorage
+    const [recipe, setRecipe] = React.useState(() => {
+        return localStorage.getItem("baileysbowl-recipe") || "";
+    });
 
     // ✅ Load cuisine from localStorage
     const [cuisine, setCuisine] = React.useState(() => {
@@ -32,6 +35,16 @@ export default function Main() {
     React.useEffect(() => {
         localStorage.setItem("baileysbowl-cuisine", cuisine);
     }, [cuisine]);
+
+    // ✅ Save recipe to localStorage
+    React.useEffect(() => {
+        if (!recipe) {
+            // If cleared (e.g. Start new recipe), remove from storage
+            localStorage.removeItem("baileysbowl-recipe");
+        } else {
+            localStorage.setItem("baileysbowl-recipe", recipe);
+        }
+    }, [recipe]);
 
     // ✅ Auto-scroll to recipe
     React.useEffect(() => {
@@ -70,7 +83,7 @@ export default function Main() {
                 <button>Add ingredient</button>
             </form>
 
-            {/* ✅ Cuisine selector */}
+            {/* Cuisine selector */}
             <section className="cuisine-selector">
                 <h2>What are you craving?</h2>
                 <div className="cuisine-selector-row">
@@ -99,7 +112,7 @@ export default function Main() {
                     ref={recipeSection}
                     ingredients={ingredients}
                     getRecipe={getRecipe}
-                    onStartNew={startNewRecipe}   // ✅ NEW
+                    onStartNew={startNewRecipe}
                 />
             )}
 
