@@ -212,7 +212,8 @@ export default function Main() {
 
             <footer className="app-footer">
                 <p>
-                    Bailey&apos;s Bowl · <span className="version-label">v{APP_VERSION}</span>
+                    &copy; {new Date().getFullYear()} penningtonProgramming · Bailey&apos;s Bowl ·{" "}
+                    <span className="version-label">v{APP_VERSION}</span>
                 </p>
             </footer>
         </>
