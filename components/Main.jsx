@@ -42,21 +42,24 @@ export default function Main() {
             {/* NEW: cuisine selector */}
             <section className="cuisine-selector">
                 <h2>What are you craving?</h2>
-                <label htmlFor="cuisine-select">
-                    Choose a cuisine style (optional):
-                </label>
-                <select
-                    id="cuisine-select"
-                    value={cuisine}
-                    onChange={(e) => setCuisine(e.target.value)}
-                >
-                    <option value="Any">Any cuisine</option>
-                    <option value="Korean">Korean</option>
-                    <option value="Japanese">Japanese</option>
-                    <option value="Chinese">Chinese</option>
-                    <option value="Mexican">Mexican</option>
-                    <option value="Italian">Italian</option>
-                </select>
+                <div className="cuisine-selector-row">
+                    <label htmlFor="cuisine-select">
+                        Choose a cuisine style (optional):
+                    </label>
+                    <select
+                        id="cuisine-select"
+                        className="cuisine-select"
+                        value={cuisine}
+                        onChange={(e) => setCuisine(e.target.value)}
+                    >
+                        <option value="Any">Any cuisine</option>
+                        <option value="Korean">Korean</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Mexican">Mexican</option>
+                        <option value="Italian">Italian</option>
+                    </select>
+                </div>
             </section>
 
             {ingredients.length > 0 && (
