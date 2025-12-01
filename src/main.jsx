@@ -8,3 +8,17 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>,
 )
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then((registration) => {
+        console.log('Bailey’s Bowl SW registered with scope:', registration.scope);
+      })
+      .catch((error) => {
+        console.error('Bailey’s Bowl SW registration failed:', error);
+      });
+  });
+}
+

@@ -1,4 +1,4 @@
-// Main.jsx
+// MainSection.jsx
 import React from "react";
 import ClaudeRecipe from "./ClaudeRecipe";
 import IngredientsList from "./IngredientsList";
@@ -8,7 +8,7 @@ import { getRecipeFromChefClaude } from "../src/ai";
 import packageJson from "../package.json"
 const APP_VERSION = packageJson.version;
 
-export default function Main() {
+export default function MainSection() {
     // Load ingredients from localStorage
     const [ingredients, setIngredients] = React.useState(() => {
         const saved = localStorage.getItem("baileysbowl-ingredients");
