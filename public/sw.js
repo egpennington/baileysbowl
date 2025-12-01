@@ -1,6 +1,5 @@
-// public/sw.js – Bailey's Bowl basic PWA SW
+// public/sw.js – Bailey's Bowl PWA SW
 
-// For now, keep this in sync manually with package.json
 const CACHE_VERSION = '1.2.0';
 const CACHE_NAME = `baileysbowl-pwa-${CACHE_VERSION}`;
 
@@ -12,12 +11,19 @@ const STATIC_ASSETS = [
   '/android-chrome-512x512.png',
 ];
 
-// Install: pre-cache core assets
+// Install: pre-cache core assets (but don't die if one fails)
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS);
-    })
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      for (const asset of STATIC_ASSETS) {
+        try {
+          await cache.add(asset);
+        } catch (err) {
+          console.warn('[SW] Failed to cache', asset, err);
+        }
+      }
+    })()
   );
   self.skipWaiting();
 });
@@ -39,7 +45,6 @@ self.addEventListener('activate', (event) => {
 
 // Fetch: network-first, fall back to cache, then to index.html
 self.addEventListener('fetch', (event) => {
-  // Only GET, same-origin
   if (event.request.method !== 'GET') return;
   if (!event.request.url.startsWith(self.location.origin)) return;
 
